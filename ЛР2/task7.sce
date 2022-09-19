@@ -1,5 +1,5 @@
-// Задание 5
-// Выполнить моделирование двух нейросетей, сгенерировав входные сигналы
+// Задание 7
+// То же, что в 6, только производные
 
 clear;
 
@@ -46,15 +46,62 @@ function a=init_nn_layer(P, S)
     W = grand(S,R,'unf',-scale,scale)
     b = zeros(S, 1)
     
-    a = ff_logsig(W, P, b)
-//    a = ff_poslin(W, P, b)
+//    a = ff_logsig(W, P, b)
+    a = ff_poslin(W, P, b)
 endfunction
 
 a1 = init_nn_layer(P, s1)
 a2 = init_nn_layer(a1, s2)
 a3 = init_nn_layer(a2, s3)
 
+//d_a1 = d_logsig(a1)
+//d_a2 = d_logsig(a2)
+//d_a3 = d_logsig(a3)
 
+d_a1 = d_poslin(a1)
+d_a2 = d_poslin(a2)
+d_a3 = d_poslin(a3)
+
+clf(1)
+figure(1)
+
+subplot(221)
+// активность 1-ого нейрона скрытого слоя
+plot(t, d_a2(1,:))
+xgrid
+xtitle("Производные для нейрона скрытого слоя")
+
+subplot(222)
+// активность нейрона выходного слоя
+plot(t, d_a3(1,:))
+xgrid
+xtitle("Производные для нейрона выходного слоя")
+
+subplot(223)
+// гистограмма общей активности нейронов скрытого слоя
+histplot(20, d_a2, style=17)
+xgrid
+xtitle("Производные для нейронов скрытого слоя")
+
+subplot(224)
+// гистограмма общей активности нейрона выходного слоя
+histplot(20, d_a3, style=17)
+xgrid
+xtitle("Производные для выходного слоя")
+
+// статистики скрытого слоя
+hl_mean = mean(d_a2)
+hl_sd = stdev(d_a2)
+
+printf("Среднее значение производных скрытого слоя: %f\n", hl_mean)
+printf("Стандартное отклонение производных скрытого слоя: %f\n", hl_sd)
+
+// статистики выходного слоя
+ol_mean = mean(d_a3)
+ol_sd = stdev(d_a3)
+
+printf("Среднее значение производных выходного слоя: %f\n", ol_mean)
+printf("Стандартное отклонение производных выходного слоя: %f\n", ol_sd)
 
 
 /*
