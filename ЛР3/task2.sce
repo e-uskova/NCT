@@ -5,10 +5,11 @@
 P = [0 1 1 0; 0 0 1 1]
 T = [1 0 0 1]
 
-W = [-1; 0]
+W = [-1 0]
 b = 0.5
 
-a = ann_hardlim_activ(W' * P + b)
+//a = ann_hardlim_activ(W * P + b)
+a = ann_PERCEPTRON_run(P, W, b)
 
 disp(a)
 printf("Количество ошибок: %d\n", sum(a - T))
