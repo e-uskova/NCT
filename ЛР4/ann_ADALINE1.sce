@@ -1,4 +1,4 @@
-function [w, b, mse1]=ann_ADALINE1(P, T, alpha, itermax, initfunc)
+function [w, b, mse1, W]=ann_ADALINE1(P, T, alpha, itermax, initfunc)
 // Обучение слоя адаптивных линейных нейронов в блочном режиме
 // Длина блока Q равна числу обучающих примеров
 // Примеры вызовов
@@ -38,6 +38,7 @@ end
 if itermax == []; itermax = 100; end
 if alpha == []; alpha = 0.01; end
 //2. ====== Реализация правил обучения ==========================
+W=[w]; //матрица, каждая строка которой – вектор весов на очередном шаге
 itercnt = 0; // Счетчик итераций - эпох
 mse1=zeros(1,itermax);
 while itercnt < itermax
@@ -58,6 +59,7 @@ while itercnt < itermax
  mse = mean(e.^2);
  itercnt = itercnt + 1;
   mse1(itercnt) = mean(e.^2);
+  W=[W; w];
  //disp('Эпоха: ' + string(itercnt) + ' СКО: ' + string(mean(mse)));
 end
 endfunction

@@ -23,7 +23,7 @@ if rhs < 2; error("Должно быть минимум 2 аргумента: P 
 if rhs < 3; alpha = 0.01; end
 if rhs < 4; itermax = 100; end
 if rhs < 5; D = 1; end
-if rhs < 6; w = rand(size(T,1),D); b = rand(size(T,1),1); end
+if rhs < 6; w = 20*rand(size(T,1),D); b = rand(size(T,1),1); end
 //Инициализация весов и смещений
 if rhs == 6 then
  select initfunc
@@ -66,7 +66,7 @@ while itercnt < itermax
  //Реализуем правило обучения Уидроу-Хоффа
  //для каждого примера P(:,cnt) вычисляем обновление w и b
  w = (w + 2*alpha*e*P(:,cnt)');
- // b = b + 2*alpha*e;
+ b = b + 2*alpha*e;
  // Вычисляем и запоминаем квадраты текущих ошибок
  e_all(cnt) = e.^2;
  W=[W; w];
