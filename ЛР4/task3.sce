@@ -2,8 +2,10 @@
 
 // 
 
-clear;
+clear
 exec("ann_ADALINE1_predict.sce");
+exec("ann_ADALINE1.sce");
+rand("seed", 42)
 
 //Значения параметров генератора L, F, Fc выбирайте из таблицы 4.1;
 //Параметры:
@@ -68,8 +70,9 @@ printf('diagevals: ')
 disp(diagevals)
 
 // максимальное устойчивое значение (alpha < 1 / lambda_max)
-//alpha_max = 1 / max(evals)
-//disp(alpha_max)
+alpha_max = 1 / max(evals)
+printf('alpha_max: ')
+disp(alpha_max)
 
 // точка минимума
 x_star = inv(R) * h
@@ -82,32 +85,64 @@ function z=f(w1, w2, c, h, R)
 endfunction
 
 
+itermax = 100
+alpha = .75
+D = 2
+[w,b,y_res,ee,mse,W]=ann_ADALINE1_predict(Y, T, alpha, itermax, D)
+//printf("ee:")
+//disp(size(mse))
+
+
 x=linspace(-20,20,100);
 y=linspace(-20,20,100);
 z=feval(x,y,f); //вычисляем значения высот целевой функции f на сетке x,y
 clf(1);
 figure(1);
-subplot(1,2,1);
-surf(x,y,z'); //строим 3D поверхность
-subplot(1,2,2);
+
+subplot(1,3,1);
+plot(t, Y, t'(3:$), y_res)
+xtitle("Входной и предсказанный процесс","t","y");
+legend("входной", "предсказанный")
+xgrid;
+
+//surf(x,y,z'); //строим 3D поверхность
+
+subplot(1,3,2);
+plot(linspace(1,itermax), mse)
+xtitle("Кривая обучения","iter","err");
+xgrid;
+
+subplot(1,3,3);
+
 contour2d(x,y,z,30); //отображаем линии контуров равных уровней
 xset("fpf"," "); //подавляем отображение значений на линиях контуров
-xtitle("Контуры равных уровней квадратичной функции","w1","w2");
+//xtitle("Контуры равных уровней квадратичной функции","w1","w2");
+xtitle("Траектория движения вектора параметров","w1","w2");
 xgrid;
+
 plot(x_star(1),x_star(2),'*b'); //отображаем точку решения минимума СКО (4.15)
 
+plot2d(W(:,1),W(:,2),5); // кривая обучения
 
-itermax = 1000
-alpha = 0.02
+
+
+/*
+itermax = 100
+alpha = .2
 D = 2
-[w,b,y,ee,mse,W]=ann_ADALINE1_predict(Y, T, alpha, itermax, D)
 
-plot2d(W(:,1),W(:,2),5);
+[w1,b1,mse1, W] = ann_ADALINE1((1:$-1),T,alpha,itermax,'zeros');
+disp(size(W))
 
+clf
+contour2d(x,y,z,30); //отображаем линии контуров равных уровней
+xset("fpf"," "); //подавляем отображение значений на линиях контуров
+//xtitle("Контуры равных уровней квадратичной функции","w1","w2");
+xtitle("Траектория движения вектора параметров","w1","w2");
+xgrid;
 
+plot(x_star(1),x_star(2),'*b'); //отображаем точку решения минимума СКО (4.15)
 
-
-
-
-
+plot2d(W(:,1),W(:,2),5); // кривая обучения
+*/
 

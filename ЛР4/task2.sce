@@ -48,7 +48,7 @@ xtitle("Входные данные", "p1", "p2")
 
 maxiter = 50
 alpha = 0.19
-[w1,b1,mse1] = ann_ADALINE1(P,T,alpha,maxiter,'zeros');
+[w1,b1,mse1, W] = ann_ADALINE1(P,T,alpha,maxiter,'zeros');
 [w2,b2,mse2] = ann_ADALINE1_online(P,T,alpha,maxiter,'zeros');
 
 disp(w1)
