@@ -60,7 +60,7 @@ Mr = 0.9
 [W_gdm, out_mse_gdm]=ann_FFBP_gdm1(P_train,T_train,N,af,lr,Mr,itermax,mse_min,gd_min);
 [W_gdx, out_mse_gdx] = ann_FFBP_gdx1(P_train,T_train,N,af,lr,lr_inc,lr_dec,Mr,itermax,mse_min,gd_min);
 
-
+/*
 clf
 //plot(out_mse_gd')
 //plot(out_mse_gda')
@@ -69,8 +69,9 @@ clf
 plot([out_mse_gd out_mse_gda out_mse_gdm out_mse_gdx])
 xtitle("Кривые обучения MLP с помощью разных алгоритмов", "Эпоха", "СКО")
 legend("gd", "gda", "gdm", "gdx")
+*/
 
-/*
+
 y_test_gd = ann_FFBP_run(P_test,W_gd,af); // сеть, обученная алг-м BP_gd
 y_test_gda = ann_FFBP_run(P_test,W_gda,af); // сеть, обученная алг-м BP_gda
 y_test_gdm = ann_FFBP_run(P_test,W_gdm,af); // сеть, обученная алг-м BP_gdm
@@ -87,25 +88,25 @@ printf("mse_gdx: %f\n", mse_gdx)
 
 clf
 subplot(221)
-plot([y_test; y_test_gd]')
+plot([T_test; y_test_gd]')
 xtitle("gd")
 legend("y=f(x, y)", "gd")
 
 subplot(222)
-plot([y_test; y_test_gda]')
+plot([T_test; y_test_gda]')
 xtitle("gda")
 legend("y=f(x, y)", "gda")
 
 subplot(223)
-plot([y_test; y_test_gdm]')
+plot([T_test; y_test_gdm]')
 xtitle("gdm")
 legend("y=f(x, y)", "gdm")
 
 subplot(224)
-plot([y_test; y_test_gdx]')
+plot([T_test; y_test_gdx]')
 xtitle("gdx")
 legend("y=f(x, y)", "gdx")
-*/
+/**/
 
 
 
